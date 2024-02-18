@@ -6,7 +6,7 @@ import { signJwt } from "../utils/jwt.utils";
 
 
 export class AuthService {
-    public async register(user:IUser){
+    public async register(user:IUser) : Promise<User>{ 
         const users = User.create({
             username:user.username,
             email:user.email,
@@ -14,7 +14,7 @@ export class AuthService {
         })
         return users
     }
-    public async login(req:Request, res:Response){
+    public async login(req:Request, res:Response) : Promise<string>{
             const {email, password} = req.body;
             const findEmail:any = await User.findOne({where:{email}})
             const comparePassword = bcrypt.compareSync(password,findEmail?.password);

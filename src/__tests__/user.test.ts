@@ -116,7 +116,7 @@ const userLoginError = {
 describe("testing error authentication",()=>{
     
     describe("authentication expect status, unprocessable content (422)",()=>{
-        it("given username, email and password for register, password should more than 8 characters", async () => { 
+        it("given username, email and password for register, password should be more than 8 characters", async () => { 
             const res = await supertest(app).post("/api/v1/user/register").send(createUserError)
             expect(res.statusCode).toBe(422)
         })

@@ -21,11 +21,11 @@ export const editUser =
         check("email").isEmail().withMessage("must email").notEmpty().withMessage("email required"),
     ]
 
-export const validate = (req:Request, res:Response, next:NextFunction)=>{
+export const validate = (req:Request, res:Response, next:NextFunction) : Response<any,Record<string,any>> | undefined =>{
         const errors = validationResult(req)
         if(!errors.isEmpty()){
             let error = errors.array().map((err)=>{return err.msg})
             return res.status(422).json({error})
         }
         next()
-    }
+}
