@@ -91,7 +91,7 @@ describe("testing CRUD user",()=>{
                 .expect(201)
                 
         })
-        it("update user",async()=>{
+        it("delete user",async()=>{
             const res = await supertest(app).post("/api/v1/user/login").send(loginUser)
             await supertest(app)
                 .delete(`/api/v1/user/delete/${userPayload.id.toString()}`)
