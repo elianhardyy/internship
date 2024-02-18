@@ -1,0 +1,46 @@
+import "reflect-metadata";
+import { createConnection, Connection } from "typeorm";
+import { Container, injectable } from "inversify";
+
+// Define your TypeORM entities
+import { User } from "./entities/User";
+
+// Define interfaces for repositories or services
+interface IUserRepository {
+    findById(id: number): Promise<User | undefined>;
+    // Other methods...
+}
+
+// Implement TypeORM repository
+@injectable()
+class UserRepository implements IUserRepository {
+    async findById(id: number): Promise<User | undefined> {
+        return await connection.getRepository(User).findOne(id);
+    }
+    // Implement other methods...
+}
+
+// Configure Inversify container
+const container = new Container();
+container.bind<IUserRepository>("IUserRepository").to(UserRepository);
+
+// Usage example
+@injectable()
+class UserService {
+    constructor(private userRepository: IUserRepository) {}
+
+    async getUserById(id: number): Promise<User | undefined> {
+        return await this.userRepository.findById(id);
+    }
+}
+
+// Example usage
+async function main() {
+    await createConnection(/* TypeORM connection options */);
+    
+    const userService = container.resolve(UserService);
+    const user = await userService.getUserById(1);
+    console.log(user);
+}
+
+main();
