@@ -6,15 +6,16 @@ import { IUser, User } from "../models/user";
 class UserController {
     public async create(req : Request, res: Response) : Promise<Response>{
         const service = new AuthService();
-        const usees : IUser = req.body
-        const user = await service.register(usees);
+        const users : IUser = req.body
+        const user = await service.register(users);
         return res.status(201).json({
             data : user
         })
     }
     public async login(req:Request, res:Response) : Promise<Response> {
         const service = new AuthService();
-        const login = await service.login(req,res);
+        const user : IUser = req.body
+        const login = await service.login(user,res);
         return res.status(201).json({
             token:login
         })
@@ -43,7 +44,8 @@ class UserController {
 
     public async update(req:Request, res:Response) : Promise<Response> {
         const service = new UserService();
-        const user = await service.editProfile(req, req.params.id)
+        const edituser : IUser = req.body
+        const user = await service.editProfile(edituser, req.params.id)
         return res.status(201).json({
             data:user
         })

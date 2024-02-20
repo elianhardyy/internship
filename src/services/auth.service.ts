@@ -14,10 +14,9 @@ export class AuthService {
         })
         return users
     }
-    public async login(req:Request, res:Response) : Promise<string>{
-            const {email, password} = req.body;
-            const findEmail:any = await User.findOne({where:{email}})
-            const comparePassword = bcrypt.compareSync(password,findEmail?.password);
+    public async login(user:IUser, res:Response) : Promise<string>{
+            const findEmail:any = await User.findOne({where:{email : user.email}})
+            const comparePassword = bcrypt.compareSync(user.password,findEmail?.password);
             if(!findEmail && !comparePassword){
                 res.status(401).send({message:"Invalid email or password"})
             }

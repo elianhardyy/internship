@@ -1,11 +1,11 @@
 import express from "express";
 import user from "../routes/route";
 
-const api = express();
+const route = express();
 
 //user
-api.use("/user",user)
+route.use("/user",user)
 
 
 
-export default api;
+export default route;
