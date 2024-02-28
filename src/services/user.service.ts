@@ -1,8 +1,10 @@
-import { IUser, User } from "../models/user";
+import { UserRequest } from "../interfaces/user.interface";
+import { User } from "../models/user";
 import { Request } from "express"; 
 
+
 export class UserService {
-    public async dashboard(req:Request|any) : Promise<User|null>{
+    public async dashboard(req:UserRequest) : Promise<User|null>{
         const user: User|null = await User.findOne({where:{id:req.user.id}})
         return user;
     }
@@ -15,7 +17,7 @@ export class UserService {
         const users = await User.findAll();
         return users;
     }
-    public async editProfile(user:IUser,id:string) : Promise<[affectedCount:number]>{
+    public async editProfile(user:User,id:string) : Promise<[affectedCount:number]>{
         const userupdate = await User.update({
             username:user.username,
             email:user.email,

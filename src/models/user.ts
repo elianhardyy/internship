@@ -1,19 +1,25 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import * as bcrypt from "bcrypt";
 import { database } from "../config/database.config";
+import { Token } from "./token";
 
 
-export interface IUser{
-    username:string,
-    email:string,
-    password:string
-}
-
-export class User extends Model implements IUser{
-    public username!:string;
-    public email!:string;
+interface UserAttributes {
+    id: number;
+    username: string;
+    email: string;
+    password:string|null
+  }
+  
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
+  
+export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
+    public id!: number;
+    public username!: string;
+    public email!: string;
     public password!:string;
-}
+    // Other methods, associations, etc.
+  }
 
 User.init(
     {
@@ -28,11 +34,18 @@ User.init(
         },
         email: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            unique:true,
+            validate:{
+                isEmail:true,
+            }
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false
+            allowNull: false,
+            validate:{
+                min:8,
+            }
         }
     },
     {

@@ -1,30 +1,34 @@
 import { AuthService } from "../services/auth.service";
 import { Request, Response } from "express";
 import { UserService } from "../services/user.service";
-import { IUser, User } from "../models/user";
+import { User } from "../models/user";
+import { RequestRedirect } from "undici-types";
+import { UserRequest } from "../interfaces/user.interface";
+
 
 class UserController {
     public async create(req : Request, res: Response) : Promise<Response>{
         const service = new AuthService();
-        const users : IUser = req.body
+        const users : User = req.body
         const user = await service.register(users);
         return res.status(201).json({
             data : user
         })
     }
-    public async login(req:Request, res:Response) : Promise<Response> {
+
+    public async login(req:Request|any, res:Response) : Promise<Response|undefined> {
         const service = new AuthService();
-        const user : IUser = req.body
-        const login = await service.login(user,res);
-        return res.status(201).json({
-            token:login
-        })
+        const user : User = req.body
+        const session = req.session;
+        const login = await service.login(user,res,session);        
+        //res.cookie('jwt',login,{expires:expired});
+        return res.json(login);
     }
-    public async index(req: Request, res:Response) : Promise<Response> {
+    public async index(req: UserRequest|any, res:Response) : Promise<Response> {
         const service = new UserService();
         const dashboard = await service.dashboard(req);
         return res.status(200).json({
-            data:dashboard
+            data:dashboard,
         })
     }
     public async detail(req: Request, res:Response) : Promise<Response> {
@@ -44,7 +48,7 @@ class UserController {
 
     public async update(req:Request, res:Response) : Promise<Response> {
         const service = new UserService();
-        const edituser : IUser = req.body
+        const edituser : User = req.body
         const user = await service.editProfile(edituser, req.params.id)
         return res.status(201).json({
             data:user
@@ -55,6 +59,11 @@ class UserController {
         const service = new UserService();
         await service.deleteUser(req.params.id)
         return res.status(200).json({message:"delete succeed"})
+    }
+
+    public async logout(req:Request, res:Response){
+        const service = new AuthService();
+        await service.logout(req,res);
     }
 }
 export default new UserController();
