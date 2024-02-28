@@ -1,6 +1,4 @@
 import {body,check, validationResult} from "express-validator"
-import { Request, Response, NextFunction} from "express"
-
 export const userRegister =
     [
         check("username").notEmpty().withMessage("username required").escape().trim(),

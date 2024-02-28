@@ -19,38 +19,38 @@ export class AuthService {
         return users
     }
     public async login(user:User, res:Response, session:Session|any) : Promise<TokenData>{
-            const findEmail:User|null = await User.findOne({where:{email : user.email}})
-            const comparePassword = bcrypt.compareSync(user.password,findEmail!.password);
-            if(!findEmail && !comparePassword){
-                res.status(401).send({message:"Invalid email or password"})
-            }
-            const payload = {
-                id:findEmail?.id,
-                sub:findEmail?.email
-            }
-            const expired = new Date(Date.now()+60000)
-            session.cookie.expires = expired;
-            session.cookie.maxAge = 60000;
-            session.authenticated = true
-            
-            const refresh = refreshSignJwt(payload);
-            const refreshTokenExp = new Date(Date.now()+60000);
-            res.cookie('refreshToken',refresh,{
-                maxAge:60*60*1
-            })
-            await Token.create({
-                user_id:findEmail?.id,
-                token:refresh,
-                expires_at:refreshTokenExp
-            })
-            const token = accessSignJwt(payload);
-            session.user = {
-                username:user.username,
-                email:user.email,
-                accessToken:token,
-                refreshToken:refresh
-            }
-            return {refreshToken:refresh, accessToken: token};
+        const findEmail:User|null = await User.findOne({where:{email : user.email}})
+        const comparePassword = bcrypt.compareSync(user.password,findEmail!.password);
+        if(!findEmail && !comparePassword){
+            res.status(401).send({message:"Invalid email or password"})
+        }
+        const payload = {
+            id:findEmail?.id,
+            sub:findEmail?.email
+        }
+        const expired = new Date(Date.now()+60000)
+        session.cookie.expires = expired;
+        session.cookie.maxAge = 60000;
+        session.authenticated = true
+        
+        const refresh = refreshSignJwt(payload);
+        const refreshTokenExp = new Date(Date.now()+60000);
+        res.cookie('refreshToken',refresh,{
+            maxAge:60*60*1
+        })
+        await Token.create({
+            user_id:findEmail?.id,
+            token:refresh,
+            expires_at:refreshTokenExp
+        })
+        const token = accessSignJwt(payload);
+        session.user = {
+            username:user.username,
+            email:user.email,
+            accessToken:token,
+            refreshToken:refresh
+        }
+        return {refreshToken:refresh, accessToken: token};
     }
 
     public async logout(req:Request|any, res:Response):Promise<any>{

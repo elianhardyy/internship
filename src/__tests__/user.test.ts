@@ -2,7 +2,7 @@ import request from "supertest"
 import userController from "../controllers/user.controller"
 import { server } from "../utils/server"
 import { AuthService } from "../services/auth.service";
-import { IUser, User } from "../models/user";
+import { User, UserAttributes } from "../models/user";
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { database } from "../config/database.config";
 import { Request } from "express"; 
@@ -18,7 +18,8 @@ afterAll(async()=>{
     await database.close()
 })
 
-const createUser : IUser = {
+const createUser : UserAttributes = {
+    id:1,
     username:"hello",
     email:"hello@mail.com",
     password:"12345678"

@@ -4,7 +4,7 @@ import { database } from "../config/database.config";
 import { Token } from "./token";
 
 
-interface UserAttributes {
+export interface UserAttributes {
     id: number;
     username: string;
     email: string;
