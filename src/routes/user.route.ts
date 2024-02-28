@@ -1,7 +1,7 @@
 import express from "express"
 import UserController from "../controllers/user.controller";
-import AuthneticationMiddleware from "../middlewares/jwt";
-import { userRegister,userLogin, editUser } from "../middlewares/validation";
+import AuthneticationMiddleware from "../middlewares/validation";
+import { userRegister,userLogin, editUser } from "../schema/user";
 
 const user = express.Router();
 

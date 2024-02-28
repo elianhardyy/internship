@@ -1,22 +1,52 @@
-import {body,check, validationResult} from "express-validator"
-import { Request, Response, NextFunction} from "express"
+import { Request, Response, NextFunction } from "express";
+import { validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
+import { Blacklist } from "../models/blacklist";
+import { UserRequest } from "../interfaces/user.interface";
 
-export const userRegister =
-    [
-        check("username").notEmpty().withMessage("username required").escape().trim(),
-        check("email").isEmail().withMessage("must email").notEmpty().withMessage("email required"),
-        check("password").isLength({min:8}).withMessage("length must be 8 letters or more").notEmpty().withMessage("password required")
-    ]
+class AuthenticationMiddleware {
+    public async verifyToken(req: any, res:Response, next:NextFunction) : Promise<Response|void>{
+        let token = req.headers.authorization?.split(" ")[1];
+        if(!token){
+            return res.status(403).send({
+                message:"token not valid"
+            })
+        }
+        try {
+            const verified:any = jwt.verify(token,process.env.SECRET_JWT!);
+            if(req.session.authenticated){
+                if(verified){
+                    req.user = verified
+                    await Blacklist.destroy({where:{user_id:req.user.id}})
+                    const userblacklist = await Blacklist.findOne({where:{user_id:verified.id}})
+                    if(userblacklist){
+                        return res.status(403).send({message:"you are blacklist user"});
+                    }
+                    next();
+                }
+            }else{
+                return res.status(403).json({msg:'bad request'})
+            }
+        } catch (error) {
+            return res.status(401).send({
+                message:"Unauthorized",
+                error
+            })
+        }
+    }
+    public async validation(req: Request | any, res:Response, next:NextFunction) : Promise<Response<any,Record<string,any>> | undefined> {
+        const errors = validationResult(req)
+        if(req.session.authenticated){
+            return res.status(403).json({msg:"you've already login"});
+        }else{
+            if(!errors.isEmpty()){
+                let error = errors.array().map((err)=>{return err.msg})
+                return res.status(422).json({error})
+            }
 
-export const userLogin = 
-    [
-        check("email").isEmail().notEmpty().escape().trim(),
-        check("password").isLength({min:8}).notEmpty().escape().trim()
-    ]
+        }
+        next()
+    }
+}
 
-export const editUser =
-    [
-        check("username").notEmpty().withMessage("username required").escape().trim(),
-        check("email").isEmail().withMessage("must email").notEmpty().withMessage("email required"),
-    ]
-
+export default new AuthenticationMiddleware();
