@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  app:
+    container_name: 'app'
+    build: .
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    ports:
+      - 7134:7134
+    stdin_open: true
+    environment:
+      - PORT=7134
+    command: npm start
+
+volumes:
+  node_modules:

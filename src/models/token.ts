@@ -4,7 +4,7 @@ import { database } from "../config/database.config";
 
 interface TokenAttributes {
     id: number;
-    user_id: number|undefined;
+    userId: number|undefined;
     token: string;
     expires_at:Date
   }
@@ -13,7 +13,7 @@ interface TokenCreationAttributes extends Optional<TokenAttributes, 'id'> {}
   
 export class Token extends Model<TokenAttributes, TokenCreationAttributes> implements TokenAttributes {
     id!: number;
-    user_id!: number|undefined;
+    userId!: number|undefined;
     token!: string;
     expires_at!: Date;
     
@@ -26,7 +26,7 @@ Token.init(
             autoIncrement:true,
             primaryKey:true
         },
-        user_id:{
+        userId:{
             type:DataTypes.INTEGER,
             allowNull:false
         },

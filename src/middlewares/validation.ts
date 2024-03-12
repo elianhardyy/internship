@@ -17,8 +17,8 @@ class AuthenticationMiddleware {
             if(req.session.authenticated){
                 if(verified){
                     req.user = verified
-                    await Blacklist.destroy({where:{user_id:req.user.id}})
-                    const userblacklist = await Blacklist.findOne({where:{user_id:verified.id}})
+                    await Blacklist.destroy({where:{userId:req.user.id}})
+                    const userblacklist = await Blacklist.findOne({where:{userId:verified.id}})
                     if(userblacklist){
                         return res.status(403).send({message:"you are blacklist user"});
                     }

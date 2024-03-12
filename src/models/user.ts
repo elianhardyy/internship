@@ -1,7 +1,7 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import * as bcrypt from "bcrypt";
 import { database } from "../config/database.config";
-import { Token } from "./token";
+import { UserRole } from "./user_role";
 
 
 export interface UserAttributes {
@@ -42,7 +42,7 @@ User.init(
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             validate:{
                 min:8,
             }
@@ -55,9 +55,19 @@ User.init(
         hooks:{
             beforeCreate: (user,options)=>{
                 const salt = bcrypt.genSaltSync(10)
-                const hashedPassword = bcrypt.hashSync(user.password, salt)
-                user.password = hashedPassword
+                if(!user.password){
+                    user.password = ""
+                }else{
+                    const hashedPassword = bcrypt.hashSync(user.password, salt)
+                    user.password = hashedPassword
+                }
             },
+            afterCreate:async(user,options)=>{
+                await UserRole.create({
+                    userId:user?.id,
+                    roleId:2
+                })
+            }
         }
         
     }

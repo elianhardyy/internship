@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User } from "../models/user";
+import { User, UserAttributes } from "../models/user";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken"
 import { accessSignJwt, refreshSignJwt } from "../utils/jwt.utils";
@@ -11,7 +11,7 @@ import { Session } from "express-session";
 
 export class AuthService {
     public async register(user:User) : Promise<User>{ 
-        const users = User.create({
+        const users = await User.create({
             username:user.username,
             email:user.email,
             password:user.password
@@ -28,22 +28,25 @@ export class AuthService {
             id:findEmail?.id,
             sub:findEmail?.email
         }
-        const expired = new Date(Date.now()+60000)
+        const expired = new Date(Date.now()+360000)
         session.cookie.expires = expired;
-        session.cookie.maxAge = 60000;
+        session.cookie.maxAge = 360000;
         session.authenticated = true
         
         const refresh = refreshSignJwt(payload);
-        const refreshTokenExp = new Date(Date.now()+60000);
+        const refreshTokenExp = new Date(Date.now()+360000);
         res.cookie('refreshToken',refresh,{
-            maxAge:60*60*1
+            maxAge:360000
         })
         await Token.create({
-            user_id:findEmail?.id,
+            userId:findEmail?.id,
             token:refresh,
             expires_at:refreshTokenExp
         })
         const token = accessSignJwt(payload);
+        res.cookie('accessToken',token,{
+            maxAge:360000
+        })
         session.user = {
             username:user.username,
             email:user.email,
@@ -53,10 +56,31 @@ export class AuthService {
         return {refreshToken:refresh, accessToken: token};
     }
 
+    public async refresh(req:UserRequest,res:Response):Promise<Response>{
+        const refreshToken = req.cookies['refreshToken'];
+        const payload: any = jwt.verify(refreshToken,process.env.REFRESH_JWT!);
+        if(!payload){
+            return res.status(401).json({
+                message:"Token not found"
+            })
+        }
+        const dbToken = await Token.findOne({where:{userId:payload.id}})
+        if(!dbToken){
+            return res.status(401).json({
+                message:"user not found"
+            })
+        }
+        const newPayload = {
+            id:payload.id
+        }
+        const token = accessSignJwt(newPayload);
+        return res.json({token});
+    }
+
     public async logout(req:Request|any, res:Response):Promise<any>{
         const expired = new Date(Date.now())
         await Blacklist.create({
-            user_id:req.user.id
+            userId:req.user.id
         })
         req.session.cookie.expires = expired
         req.session.cookie.maxAge = 0;

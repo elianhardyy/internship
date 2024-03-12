@@ -4,6 +4,7 @@ import { UserService } from "../services/user.service";
 import { User } from "../models/user";
 import { RequestRedirect } from "undici-types";
 import { UserRequest } from "../interfaces/user.interface";
+import { SocialService } from "../services/social.service";
 
 
 class UserController {
@@ -23,6 +24,11 @@ class UserController {
         const login = await service.login(user,res,session);        
         //res.cookie('jwt',login,{expires:expired});
         return res.json(login);
+    }
+    public async refresh(req:Request|any,res:Response){
+        const service = new AuthService();
+        const refresh = await service.refresh(req,res)
+        return refresh;
     }
     public async index(req: UserRequest|any, res:Response) : Promise<Response> {
         const service = new UserService();
@@ -64,6 +70,17 @@ class UserController {
     public async logout(req:Request, res:Response){
         const service = new AuthService();
         await service.logout(req,res);
+    }
+
+    public async googleAuth(req:Request,res:Response){
+        const service = new SocialService();
+        return service.authorizationGoogle(res)
+    }
+
+    public async googleCallback(req:Request,res:Response){
+        const service = new SocialService();
+        const data = await service.callbackAuth(req.query);
+        return res.json({data});
     }
 }
 export default new UserController();

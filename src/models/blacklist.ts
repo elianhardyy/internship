@@ -6,14 +6,14 @@ import { database } from "../config/database.config";
 
 interface BlacklistAttributes {
     id: number;
-    user_id: number|undefined;
+    userId: number|undefined;
   }
   
 interface BlacklistCreationAttributes extends Optional<BlacklistAttributes, 'id'> {}
   
 export class Blacklist extends Model<BlacklistAttributes, BlacklistCreationAttributes> implements BlacklistAttributes {
     id!: number;
-    user_id!: number|undefined;
+    userId!: number|undefined;
 }
 
 Blacklist.init(
@@ -24,7 +24,7 @@ Blacklist.init(
             autoIncrement:true,
             allowNull:false
         },
-        user_id:{
+        userId:{
             type:DataTypes.INTEGER,
             allowNull:false,
         }
