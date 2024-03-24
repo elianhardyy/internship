@@ -9,6 +9,7 @@ import { Role } from "../models/role";
 import { UserRole } from "../models/user_role";
 import cookieParser from 'cookie-parser';
 import cors from "cors"
+import { Profile } from "../models/profile";
 export const server = () =>{
     const app = express()
 
@@ -25,10 +26,13 @@ export const server = () =>{
     User.belongsToMany(Role,{through:UserRole,onDelete:"CASCADE",onUpdate:"CASCADE",foreignKey:'userId'});
     Role.belongsToMany(User,{through:UserRole,onDelete:"CASCADE",onUpdate:"CASCADE",foreignKey:'roleId'});
 
+    User.hasOne(Profile,{onDelete:"CASCADE",onUpdate:"CASCADE",foreignKey:"userId"})
+    Profile.belongsTo(User,{onDelete:"CASCADE",onUpdate:"CASCADE",foreignKey:"userId"})
+
     database.sync();
     app.use(cors({
         origin:"http://localhost:5173",
-        credentials:true
+        credentials:true,
     }))
     app.use(session({
         secret:process.env.SECRET_SESSION!,

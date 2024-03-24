@@ -3,14 +3,14 @@ import { database } from "../config/database.config";
 
 export interface RoleAttributes{
     id:number;
-    name:number;
+    name:string;
 }
 interface RoleCreationAttributes extends Optional<RoleAttributes,'id'>{
 }
 
 export class Role extends Model<RoleAttributes, RoleCreationAttributes> implements RoleAttributes{
     id!: number;
-    name!: number;
+    name!: string;
 }
 
 Role.init({

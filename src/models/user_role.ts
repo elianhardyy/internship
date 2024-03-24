@@ -1,5 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { database } from "../config/database.config";
+import { Role } from "../enums/role";
 
 export interface UserRoleAttributes{
     id:number;
@@ -28,7 +29,7 @@ UserRole.init({
     roleId:{
         type:DataTypes.INTEGER,
         allowNull:false,
-        defaultValue:2
+        defaultValue:Role.USER
     }
 },{
     timestamps:true,

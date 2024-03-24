@@ -82,5 +82,23 @@ class UserController {
         const data = await service.callbackAuth(req.query);
         return res.json({data});
     }
+
+    public async myProfile(req:any,res:Response){
+        const service = new UserService();
+        const data = await service.postProfile(req)
+        return res.json({data});
+    }
+
+    public async getAllProfile(req:any, res:Response):Promise<Response>{
+        const service = new UserService();
+        const data = await service.getProfile();
+        return res.json({data});
+    }
+
+    public async destroyMyProfile(req:Request,res:Response){
+        const service = new UserService();
+        const data = await service.deleteProfile(req.params,res);
+        return res.json({data});
+    }
 }
 export default new UserController();

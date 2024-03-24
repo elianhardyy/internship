@@ -7,14 +7,18 @@ import { UserRequest } from "../interfaces/user.interface";
 class AuthenticationMiddleware {
     public async verifyToken(req: any, res:Response, next:NextFunction) : Promise<Response|void>{
         let token = req.headers.authorization?.split(" ")[1];
+        
         if(!token){
             return res.status(403).send({
                 message:"token not valid"
             })
         }
+               
         try {
             const verified:any = jwt.verify(token,process.env.SECRET_JWT!);
+           
             if(req.session.authenticated){
+              
                 if(verified){
                     req.user = verified
                     await Blacklist.destroy({where:{userId:req.user.id}})

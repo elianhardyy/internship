@@ -2,6 +2,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import * as bcrypt from "bcrypt";
 import { database } from "../config/database.config";
 import { UserRole } from "./user_role";
+import { Role } from "../enums/role";
 
 
 export interface UserAttributes {
@@ -19,7 +20,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
     public email!: string;
     public password!:string;
     // Other methods, associations, etc.
-  }
+}
 
 User.init(
     {
@@ -65,7 +66,7 @@ User.init(
             afterCreate:async(user,options)=>{
                 await UserRole.create({
                     userId:user?.id,
-                    roleId:2
+                    roleId:Role.USER
                 })
             }
         }
