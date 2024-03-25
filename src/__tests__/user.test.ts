@@ -4,7 +4,7 @@ import { server } from "../utils/server"
 import { AuthService } from "../services/auth.service";
 import { User, UserAttributes } from "../models/user";
 import { DataTypes, Model, Sequelize } from "sequelize";
-import { database } from "../config/database.config";
+import { database } from "../config/config";
 import { Request } from "express"; 
 import supertest from "supertest";
 const service = new AuthService();

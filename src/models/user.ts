@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import * as bcrypt from "bcrypt";
-import { database } from "../config/database.config";
+import { database } from "../config/config";
 import { UserRole } from "./user_role";
 import { Role } from "../enums/role";
 

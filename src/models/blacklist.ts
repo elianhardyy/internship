@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 
-import { database } from "../config/database.config";
+import { database } from "../config/config";
 
 
 
