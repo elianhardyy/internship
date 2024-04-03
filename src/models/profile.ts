@@ -32,6 +32,7 @@ Profile.init(
         }
     },{
         timestamps:true,
-        sequelize:database
+        sequelize:database,
+        tableName:"profiles"
     }
 )

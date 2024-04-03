@@ -38,6 +38,7 @@ Token.init(
         }
     },{
         timestamps:true,
-        sequelize:database
+        sequelize:database,
+        tableName:"tokens"
     }
 )
