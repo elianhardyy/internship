@@ -14,7 +14,7 @@ const scopes = [
 ]
 
 export const authorizationUrl = oauth2Client.generateAuthUrl({
-    access_type:'offline',
+    access_type:'online',
     scope:scopes,
     include_granted_scopes:true
 })
