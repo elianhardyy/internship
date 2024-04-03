@@ -48,12 +48,12 @@ export class AuthService {
         const refresh = refreshSignJwt(payload);
         const refreshTokenExp = new Date(Date.now()+86400000);
         
+        const token = accessSignJwt(payload);
         await Token.create({
             userId:findEmail?.id,
-            token:refresh,
-            expires_at:refreshTokenExp
+            token:token,
+            expires_at:expired
         })
-        const token = accessSignJwt(payload);
         
         session.user = {
             username:user.username,
