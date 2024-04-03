@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import { Blacklist } from "../models/blacklist";
+import { Token } from "../models/token";
 class AuthenticationMiddleware {
     public async verifyToken(req: any, res:Response, next:NextFunction) : Promise<Response|void>{
         let token = req.headers.authorization?.split(" ")[1];
@@ -20,10 +21,19 @@ class AuthenticationMiddleware {
                     req.user = verified
                     await Blacklist.destroy({where:{userId:req.user.id}})
                     const userblacklist = await Blacklist.findOne({where:{userId:verified.id}})
-                    if(userblacklist){
-                        return res.status(403).send({message:"you are blacklist user"});
+                    const tokenAuth = await Token.findOne({where:{userId:req.user.id}})
+                    if(!tokenAuth){
+                        return res.status(403).json({message:"you must login first"});
                     }
-                    next();
+                    if(tokenAuth?.expires_at <= new Date(Date.now())){
+                        await Token.destroy({where:{userId:req.user.id}})
+                        return res.status(403).json({message:"you can't login"})
+                    }else{
+                        if(userblacklist){
+                            return res.status(403).send({message:"you have been logged out"});
+                        }
+                        next();
+                    }
                 }
             }else{
                 return res.status(403).json({message:'bad request'})

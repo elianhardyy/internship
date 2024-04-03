@@ -9,13 +9,13 @@ export const accessSignJwt = (object:Object, options?:jwt.SignOptions | undefine
     return jwt.sign(object, process.env.SECRET_JWT!,{
         ...(options && options),
         algorithm:"HS512",
-        expiresIn:360000
+        expiresIn:86400000
     })
 }
 export const refreshSignJwt = (object:Object, options?:jwt.SignOptions | undefined) => {
     return jwt.sign(object, process.env.REFRESH_JWT!,{
         ...(options && options),
         algorithm:"HS512",
-        expiresIn:360000
+        expiresIn:86400000
     })
 }
