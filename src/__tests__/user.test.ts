@@ -1,7 +1,7 @@
 import request from "supertest"
 import userController from "../controllers/user.controller"
 import { server } from "../utils/server"
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../services/user/auth.service";
 import { User, UserAttributes } from "../models/user";
 import { DataTypes, Model, Sequelize } from "sequelize";
 import { database } from "../config/config";

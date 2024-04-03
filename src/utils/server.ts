@@ -9,6 +9,7 @@ export const server = () =>{
     dbconfig
     app.use(cors({
         origin:"http://localhost:5173",
+        methods:["GET","POST","PUT","DELETE"],
         credentials:true,
     }))
     app.use(session({

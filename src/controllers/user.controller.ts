@@ -1,29 +1,27 @@
-import { AuthService } from "../services/auth.service";
+import { AuthService } from "../services/user/auth.service";
 import { Request, Response } from "express";
-import { UserService } from "../services/user.service";
+import { UserService } from "../services/user/user.service";
 import { User } from "../models/user";
 import { RequestRedirect } from "undici-types";
 import { UserRequest } from "../interfaces/user.interface";
-import { SocialService } from "../services/social.service";
+import { SocialService } from "../services/user/social.service";
 
 
 class UserController {
     public async create(req : Request, res: Response) : Promise<Response>{
         const service = new AuthService();
         const users : User = req.body
-        const user = await service.register(users);
-        return res.status(201).json({
-            data : user
-        })
+        const user = await service.register(users,res);
+        return user
     }
 
-    public async login(req:Request|any, res:Response) : Promise<Response|undefined> {
+    public async login(req:Request|any, res:Response) : Promise<any> {
         const service = new AuthService();
         const user : User = req.body
         const session = req.session;
         const login = await service.login(user,res,session);        
         //res.cookie('jwt',login,{expires:expired});
-        return res.json(login);
+        return login;
     }
     public async refresh(req:Request|any,res:Response){
         const service = new AuthService();
@@ -34,7 +32,10 @@ class UserController {
         const service = new UserService();
         const dashboard = await service.dashboard(req);
         return res.status(200).json({
-            data:dashboard,
+            data:{
+                email:dashboard?.email,
+                username:dashboard?.username
+            },
         })
     }
     public async detail(req: Request, res:Response) : Promise<Response> {

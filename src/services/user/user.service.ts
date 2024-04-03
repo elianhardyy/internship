@@ -1,12 +1,12 @@
-import { UserRequest } from "../interfaces/user.interface";
-import { User } from "../models/user";
+import { UserRequest } from "../../interfaces/user.interface";
+import { User } from "../../models/user";
 import { Request } from "express"; 
 import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
-import { bucketName, s3 } from "../utils/files";
-import { FileRequest } from "../interfaces/file.interface";
+import { bucketName, s3 } from "../../utils/files";
+import { FileRequest } from "../../interfaces/file.interface";
 import crypto from 'crypto'
 import sharp from "sharp";
-import { Profile } from "../models/profile";
+import { Profile } from "../../models/profile";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 export class UserService {
     public async dashboard(req:UserRequest) : Promise<User|null>{
@@ -60,7 +60,7 @@ export class UserService {
                 Bucket:bucketName,
                 Key:pro.image
             })
-            const url = await getSignedUrl(s3,command,{expiresIn:3600})
+            const url = await getSignedUrl(s3,command,{expiresIn:360000})
             pro.image = url
         }
         return profile

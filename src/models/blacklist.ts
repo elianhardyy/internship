@@ -1,8 +1,5 @@
 import { DataTypes, Model, Optional } from "sequelize";
-
 import { database } from "../config/config";
-
-
 
 interface BlacklistAttributes {
     id: number;

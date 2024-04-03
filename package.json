@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --detectOpenHandles",
-    "start": "nodemon src/index.ts"
+    "start": "npx tsc -w",
+    "dev":"npx nodemon",
+    "build":"tsc"
   },
   "keywords": [],
   "author": "",

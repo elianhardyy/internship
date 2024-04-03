@@ -1,13 +1,10 @@
 {
   "include": [
-    "package.json",
-    ".gitignore",
-    ".env",
-    "**/*"
+    "src/**/*"
   ],
   "exclude": [
-    "node_modules",
-    "build"
+    "node_modules/*",
+    "build/*"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */

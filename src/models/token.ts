@@ -1,7 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
 import { database } from "../config/config";
 
-
 interface TokenAttributes {
     id: number;
     userId: number|undefined;

@@ -4,7 +4,6 @@ import { database } from "../config/config";
 import { UserRole } from "./user_role";
 import { Role } from "../enums/role";
 
-
 export interface UserAttributes {
     id: number;
     username: string;
@@ -73,3 +72,4 @@ User.init(
         
     }
 )
+

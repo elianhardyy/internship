@@ -15,7 +15,7 @@ user.get("/all",AuthenticationMiddleware.verifyToken,UserController.users)
 user.put("/update/:id",editUser,AuthenticationMiddleware.validation,AuthenticationMiddleware.verifyToken,UserController.update);
 user.delete("/delete/:id",AuthenticationMiddleware.verifyToken,UserController.destroy)
 user.post("/profile",AuthenticationMiddleware.verifyToken,upload.single('image'),UserController.myProfile)
-user.get("/all/profiles",AuthenticationMiddleware.verifyToken,UserController.getAllProfile)
+user.get("/all/profiles",AuthenticationMiddleware.verifyToken,permission(["admin"]),UserController.getAllProfile)
 user.get("/profile/:id",AuthenticationMiddleware.verifyToken,UserController.destroyMyProfile);
 
 

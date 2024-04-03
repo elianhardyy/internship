@@ -1,32 +1,44 @@
 import { Request, Response } from "express";
-import { User, UserAttributes } from "../models/user";
+import { User, UserAttributes } from "../../models/user";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken"
-import { accessSignJwt, refreshSignJwt } from "../utils/jwt.utils";
-import { TokenData } from "../utils/jwt.utils"; 
-import { Token } from "../models/token";
-import { Blacklist } from "../models/blacklist";
-import { UserRequest } from "../interfaces/user.interface";
+import { accessSignJwt, refreshSignJwt } from "../../utils/jwt.utils";
+import { TokenData } from "../../utils/jwt.utils"; 
+import { Token } from "../../models/token";
+import { Blacklist } from "../../models/blacklist";
+import { UserRequest } from "../../interfaces/user.interface";
 import { Session } from "express-session";
+import { UserRole } from "../../models/user_role";
 
 export class AuthService {
-    public async register(user:User) : Promise<User>{ 
-        const users = await User.create({
-            username:user.username,
-            email:user.email,
-            password:user.password
-        })
-        return users
-    }
-    public async login(user:User, res:Response, session:Session|any) : Promise<TokenData>{
-        const findEmail:User|null = await User.findOne({where:{email : user.email}})
-        const comparePassword = bcrypt.compareSync(user.password,findEmail!.password);
-        if(!findEmail && !comparePassword){
-            res.status(401).send({message:"Invalid email or password"})
+    public async register(user:User,res:Response) : Promise<any>{ 
+        const findEmail = await User.findOne({where:{email:user.email}})
+        if(findEmail){
+            return res.status(400).json({status:400,message:"email is already taken",data:"not found"})
+        }else{
+            const users = await User.create({
+                username:user.username,
+                email:user.email,
+                password:user.password
+            })
+            
+            return res.status(201).json({status:201,message:"successfull",data:users})
         }
+    }
+    public async login(user:User, res:Response, session:Session|any) : Promise<TokenData|Response>{
+        const findEmail:User|null = await User.findOne({where:{email : user.email}})
+        if(!findEmail){
+            return res.status(401).send({message:"Invalid email or password"})
+        }
+        const comparePassword = bcrypt.compareSync(user.password,findEmail!.password)
+        if(!comparePassword){
+                return res.status(401).send({message:"Invalid email or password"})
+        }
+        const userRole = await UserRole.findOne({where:{userId:findEmail?.id}})
         const payload = {
             id:findEmail?.id,
-            sub:findEmail?.email
+            sub:findEmail?.email,
+            role:userRole?.roleId
         }
         const expired = new Date(Date.now()+360000)
         session.cookie.expires = expired;
@@ -53,7 +65,8 @@ export class AuthService {
             accessToken:token,
             refreshToken:refresh
         }
-        return {refreshToken:refresh, accessToken: token};
+        res.cookie("token",token);
+        return res.status(200).json({refreshToken:refresh, accessToken: token});
     }
 
     public async refresh(req:UserRequest,res:Response):Promise<Response>{
@@ -89,6 +102,9 @@ export class AuthService {
             if(err){
                 return err.message
             }else{
+                res.cookie("jwt","",{
+                    expires:new Date(0)
+                })
                 return res.status(200).json({msg:"session deleted"});
             }
         })
