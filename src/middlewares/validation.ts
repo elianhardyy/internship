@@ -25,15 +25,15 @@ class AuthenticationMiddleware {
                     if(!tokenAuth){
                         return res.status(403).json({message:"you must login first"});
                     }
-                    if(token != tokenAuth.token){
+                    else if(token != tokenAuth.token){
                         return res.status(403).json({message:"your token not verified"})
                     }
-                    if(tokenAuth?.expires_at <= new Date(Date.now())){
+                    else if(tokenAuth?.expires_at <= new Date(Date.now())){
                         await Token.destroy({where:{userId:req.user.id}})
                         return res.status(403).json({message:"you can't login"})
                     }else{
                         if(userblacklist){
-                            return res.status(403).send({message:"you have been logged out"});
+                            return res.status(403).json({message:"you have been logged out"});
                         }
                         next();
                     }

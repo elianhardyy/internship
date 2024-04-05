@@ -28,11 +28,11 @@ export class AuthService {
     public async login(user:User, res:Response, session:Session|any) : Promise<TokenData|Response>{
         const findEmail:User|null = await User.findOne({where:{email : user.email}})
         if(!findEmail){
-            return res.status(401).send({message:"Invalid email or password"})
+            return res.status(401).json({status:401,message:"Invalid email or password"})
         }
         const comparePassword = bcrypt.compareSync(user.password,findEmail!.password)
         if(!comparePassword){
-                return res.status(401).send({message:"Invalid email or password"})
+                return res.status(401).json({status:401,message:"Invalid email or password"})
         }
         const userRole = await UserRole.findOne({where:{userId:findEmail?.id}})
         const payload = {
