@@ -15,7 +15,6 @@ class AuthenticationMiddleware {
                
         try {
             const verified:any = jwt.verify(token,process.env.SECRET_JWT!);
-           
             if(req.session.authenticated){
                 if(verified){
                     req.user = verified
