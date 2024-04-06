@@ -13,8 +13,17 @@ export const server = () =>{
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
     }))
+    app.use((req,res,next)=>{
+        res.header(
+            "Access-Control-Allow-Headers",
+            "x-access-token, Origin, Content-Type, Accept"
+        )
+        next();
+    })
     app.use(session({
-        secret:process.env.SECRET_SESSION!,
+        secret:process.env.SECRET_JWT!,
+        resave: true,
+        saveUninitialized: true,
         cookie:{maxAge:86400000},
     }))
     app.use(express.urlencoded({extended:true})),
