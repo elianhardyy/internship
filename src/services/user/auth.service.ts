@@ -25,7 +25,7 @@ export class AuthService {
             return res.status(201).json({status:201,message:"successfull",data:users})
         }
     }
-    public async login(user:User, res:Response, session:Session|any) : Promise<TokenData|Response>{
+    public async login(user:User, res:Response|any, session:Session|any) : Promise<TokenData|Response>{
         const findEmail:User|null = await User.findOne({where:{email : user.email}})
         if(!findEmail){
             return res.status(401).json({status:401,message:"Invalid email or password"})
@@ -62,12 +62,16 @@ export class AuthService {
             refreshToken:refresh
         }
         res.cookie('refreshToken',refresh,{
-            maxAge:86400000
+            maxAge:86400000,
+            withCredentials: true,
+            httpOnly: false,
         })
         res.cookie('accessToken',token,{
-            maxAge:86400000
+            maxAge:86400000,
+            withCredentials: true,
+            httpOnly: false,
         })
-        res.cookie("token",token);
+        //res.cookie("token",token);
         return res.status(200).json({refreshToken:refresh, accessToken: token});
     }
 
