@@ -8,9 +8,7 @@ import { Request, Response } from "express";
 export const server = () =>{
     const app = express()
     dbconfig
-    app.use(express.urlencoded({extended:true})),
-    app.use(express.json());
-    app.use(cookieParser())
+    
     app.use(cors({
         origin:"http://localhost:5173",
         methods:["GET","POST","PUT","DELETE"],
@@ -23,12 +21,16 @@ export const server = () =>{
         )
         next();
     })
+    
     app.use(session({
         secret:process.env.SECRET_JWT!,
         resave: true,
         saveUninitialized: true,
         cookie:{maxAge:86400000},
     }))
+    app.use(express.urlencoded({extended:true})),
+    app.use(express.json());
+    app.use(cookieParser())
     app.use("/api/v1",router)
     app.get("/",function(req:Request, res:Response){
         res.send(
