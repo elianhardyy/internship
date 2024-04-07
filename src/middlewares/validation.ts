@@ -6,21 +6,24 @@ import { Token } from "../models/token";
 class AuthenticationMiddleware {
     public async verifyToken(req: any, res:Response, next:NextFunction) : Promise<Response|void>{
         let token = req.headers.authorization?.split(" ")[1];
-        
+        //token.exp or token.iat
         if(!token){
             return res.status(403).send({
                 message:"token not valid"
             })
         }
-               
         try {
-            const verified:any = jwt.verify(token,process.env.SECRET_JWT!);
+            const verified : any= jwt.verify(token,process.env.SECRET_JWT!);
+            console.log(req.session.authenticated)
             if(req.session.authenticated){
                 if(verified){
                     req.user = verified
                     await Blacklist.destroy({where:{userId:req.user.id}})
                     const userblacklist = await Blacklist.findOne({where:{userId:verified.id}})
-                    const tokenAuth = await Token.findOne({where:{userId:req.user.id}})
+                    const tokenAuth = await Token.findOne({where:{
+                        userId:req.user.id,
+                        expires_at:req.user.exp,
+                    }})
                     if(!tokenAuth){
                         return res.status(403).json({message:"you must login first"});
                     }

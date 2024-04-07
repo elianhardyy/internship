@@ -12,5 +12,6 @@ const DIALECT : any= process.env.DIALECT;
 export const database = new Sequelize(DATABASE,USER,PASSWORD,{
     host:HOST,
     dialect:DIALECT,
-    dialectModule:mysql2
+    dialectModule:mysql2,
+    timezone:"+07:00"
 })
