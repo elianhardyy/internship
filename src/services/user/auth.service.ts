@@ -111,7 +111,10 @@ export class AuthService {
                 res.cookie("jwt","",{
                     expires:new Date(0)
                 })
-                await Token.destroy({where:{userId:req.user.id}})
+                await Token.destroy({where:{
+                    userId:req.user.id,
+                    expires_at:req.user.exp
+                }});
                 return res.status(200).json({msg:"session deleted"});
             }
         })
