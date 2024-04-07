@@ -7,12 +7,6 @@ import { dbconfig } from "../config/database";
 import { Request, Response } from "express";
 export const server = () =>{
     const app = express()
-    dbconfig
-    app.use(cors({
-        origin:"http://localhost:5173",
-        methods:["GET","POST","PUT","DELETE"],
-        credentials:true,
-    }))
     app.use((req,res,next)=>{
         res.header(
             "Access-Control-Allow-Headers",
@@ -20,6 +14,12 @@ export const server = () =>{
         )
         next();
     }) 
+    app.use(cors({
+        origin:"http://localhost:5173",
+        methods:["GET","POST","PUT","DELETE"],
+        credentials:true,
+    }))
+    
     app.use(session({
         secret:process.env.SECRET_JWT!,
         resave: true,
@@ -29,6 +29,7 @@ export const server = () =>{
     app.use(express.json())
     app.use(express.urlencoded({extended:true}))
     app.use(cookieParser())
+    dbconfig
     app.use("/api/v1",router)
     app.get("/",function(req:Request, res:Response){
         res.send(
