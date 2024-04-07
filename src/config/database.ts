@@ -1,6 +1,7 @@
 import { Blacklist } from "../models/blacklist";
 import { Profile } from "../models/profile";
 import { Role } from "../models/role";
+import { Session } from "../models/session";
 import { Token } from "../models/token";
 import { User } from "../models/user";
 import { UserRole } from "../models/user_role";
@@ -21,5 +22,8 @@ export const dbconfig = [
 
     User.hasOne(Profile,{onDelete:"CASCADE",onUpdate:"CASCADE",foreignKey:"userId"}),
     Profile.belongsTo(User,{onDelete:"CASCADE",onUpdate:"CASCADE",foreignKey:"userId"}),
+
+    User.hasMany(Session,{onDelete:"CASCADE",onUpdate:"CASCADE",foreignKey:"userId"}),
+    Session.belongsTo(User,{onDelete:"CASCADE",onUpdate:"CASCADE",foreignKey:"userId"}),
     database.sync()
 ]

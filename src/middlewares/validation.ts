@@ -22,7 +22,7 @@ class AuthenticationMiddleware {
                     const userblacklist = await Blacklist.findOne({where:{userId:verified.id}})
                     const tokenAuth = await Token.findOne({where:{
                         userId:req.user.id,
-                        expires_at:req.user.exp,
+                        token:token,
                     }})
                     if(!tokenAuth){
                         return res.status(403).json({message:"you must login first"});

@@ -98,22 +98,25 @@ export class AuthService {
 
     public async logout(req:Request|any, res:Response):Promise<any>{
         const expired = new Date(Date.now())
+        let token = req.headers.authorization?.split(" ")[1]
         await Blacklist.create({
             userId:req.user.id
         })
         req.session.cookie.expires = expired
-        req.session.cookie.maxAge = 0;
+        req.session.cookie.maxAge = 0
         req.session.authenticated = false
         req.session.destroy(async(err:Error)=>{
             if(err){
                 return err.message
             }else{
+                const exptoken = new Date(req.user.exp);
+                console.log(exptoken);
                 res.cookie("jwt","",{
-                    expires:new Date(0)
+                    expires:expired
                 })
                 await Token.destroy({where:{
                     userId:req.user.id,
-                    expires_at:req.user.exp
+                    token
                 }});
                 return res.status(200).json({msg:"session deleted"});
             }
