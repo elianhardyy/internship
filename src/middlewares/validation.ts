@@ -43,6 +43,8 @@ class AuthenticationMiddleware {
                     next();
                     
                 }
+            }else{
+                 return res.status(403).json({message:'bad request'})
             }
         } catch (error) {
             
