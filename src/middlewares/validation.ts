@@ -12,15 +12,14 @@ class AuthenticationMiddleware {
                 message:"token not valid"
             })
         }
-        try {
-            const verified : any= jwt.verify(token,process.env.SECRET_JWT!);
-            // console.log(req.session.authenticated)
-            // if(req.session.authenticated){
-                
-            // }else{
-            //     return res.status(403).json({message:'bad request'})
-            // }
-            if(verified){
+        jwt.verify(token,process.env.SECRET_JWT!,async (err:any,verified:any) => {
+            if(err){
+                return res.status(401).send({
+                    message:"Unauthorized",
+                    err
+                })
+            }
+            else{
                 req.user = verified
                 await Blacklist.destroy({where:{userId:req.user.id}})
                 const userblacklist = await Blacklist.findOne({where:{userId:verified.id}})
@@ -28,13 +27,13 @@ class AuthenticationMiddleware {
                     userId:req.user.id,
                     token:token,
                 }})
-                // if(!tokenAuth){
-                //     return res.status(403).json({message:"you must login first"});
-                // }
-                // else if(token != tokenAuth.token){
-                //     return res.status(403).json({message:"your token not verified"})
-                // }
-                if(tokenAuth!!.expires_at <= new Date(Date.now())){
+                if(!tokenAuth){
+                    return res.status(403).json({message:"you must login first"});
+                }
+                else if(token != tokenAuth.token){
+                    return res.status(403).json({message:"your token not verified"})
+                }
+                else if(tokenAuth!!.expires_at <= new Date(Date.now())){
                     await Token.destroy({where:{userId:req.user.id}})
                     return res.status(403).json({message:"you can't login"})
                 }else{
@@ -44,12 +43,19 @@ class AuthenticationMiddleware {
                     next();
                 }
             }
-        } catch (error) {
-            return res.status(401).send({
-                message:"Unauthorized",
-                error
-            })
-        }
+        })
+        // try {
+        //     const verified : any= jwt.verify(token,process.env.SECRET_JWT!);
+        //     // console.log(req.session.authenticated)
+        //     // if(req.session.authenticated){
+                
+        //     // }else{
+        //     //     return res.status(403).json({message:'bad request'})
+        //     // }
+            
+        // } catch (error) {
+            
+        // }
     }
     public async validation(req: Request | any, res:Response, next:NextFunction) : Promise<Response<any,Record<string,any>> | undefined> {
         const errors = validationResult(req)
