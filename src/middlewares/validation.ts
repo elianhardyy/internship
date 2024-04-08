@@ -29,7 +29,9 @@ class AuthenticationMiddleware {
                 
             // }else{
             //     return res.status(403).json({message:'bad request'})
-            // }      
+            // }     
+        await Blacklist.destroy({where:{userId:req.user.id}})
+        const userblacklist = await Blacklist.findOne({where:{userId:req.user.id}}) 
         const tokenAuth = await Token.findOne({where:{
             userId:req.user.id,
             token:token,
@@ -44,8 +46,6 @@ class AuthenticationMiddleware {
             await Token.destroy({where:{userId:req.user.id}})
             return res.status(403).json({message:"you can't login"})
         }else{
-            await Blacklist.destroy({where:{userId:req.user.id}})
-            const userblacklist = await Blacklist.findOne({where:{userId:req.user.id}})
             if(userblacklist){
                 return res.status(403).json({message:"you have been logged out"});
             }
