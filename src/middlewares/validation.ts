@@ -23,24 +23,25 @@ class AuthenticationMiddleware {
                 req.user = verified
                 await Blacklist.destroy({where:{userId:req.user.id}})
                 const userblacklist = await Blacklist.findOne({where:{userId:verified.id}})
-                const tokenAuth = await Token.findOne({where:{
-                    userId:req.user.id,
-                }})
-                if(!tokenAuth){
-                    return res.status(403).json({message:"you must login first"});
-                }
-                else if(token != tokenAuth.token){
-                    return res.status(403).json({message:"your token not verified"})
-                }
-                else if(tokenAuth!!.expires_at <= new Date(Date.now())){
-                    await Token.destroy({where:{userId:req.user.id}})
-                    return res.status(403).json({message:"you can't login"})
-                }else{
-                    if(userblacklist){
+                // const tokenAuth = await Token.findOne({where:{
+                //     userId:req.user.id,
+                // }})
+                if(userblacklist){
                         return res.status(403).json({message:"you have been logged out"});
                     }
                     next();
-                }
+                // if(!tokenAuth){
+                //     return res.status(403).json({message:"you must login first"});
+                // }
+                // else if(token != tokenAuth.token){
+                //     return res.status(403).json({message:"your token not verified"})
+                // }
+                // else if(tokenAuth!!.expires_at <= new Date(Date.now())){
+                //     await Token.destroy({where:{userId:req.user.id}})
+                //     return res.status(403).json({message:"you can't login"})
+                // }else{
+                    
+                // }
             }
         })
         // try {
