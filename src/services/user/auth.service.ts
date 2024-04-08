@@ -54,7 +54,6 @@ export class AuthService {
             token:token,
             expires_at:expired
         })
-        
         session.user = {
             username:user.username,
             email:user.email,
@@ -99,9 +98,9 @@ export class AuthService {
     public async logout(req:Request|any, res:Response):Promise<any>{
         const expired = new Date(Date.now())
         let token = req.headers.authorization?.split(" ")[1]
-        await Blacklist.create({
-            userId:req.user.id
-        })
+        // await Blacklist.create({
+        //     userId:req.user.id
+        // })
         req.session.cookie.expires = expired
         req.session.cookie.maxAge = 0
         req.session.authenticated = false

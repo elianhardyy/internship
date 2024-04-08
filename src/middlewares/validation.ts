@@ -29,9 +29,9 @@ class AuthenticationMiddleware {
                 
             // }else{
             //     return res.status(403).json({message:'bad request'})
-            // }     
-        await Blacklist.destroy({where:{userId:req.user.id}})
-        const userblacklist = await Blacklist.findOne({where:{userId:req.user.id}}) 
+            // }  
+        // await Blacklist.destroy({where:{userId:req.user.id}})   
+        //const userblacklist = await Blacklist.findOne({where:{userId:req.user.id}}) 
         const tokenAuth = await Token.findOne({where:{
             userId:req.user.id,
             token:token,
@@ -46,10 +46,11 @@ class AuthenticationMiddleware {
             await Token.destroy({where:{userId:req.user.id}})
             return res.status(403).json({message:"you can't login"})
         }else{
-            if(userblacklist){
-                return res.status(403).json({message:"you have been logged out"});
-            }
+            // if(userblacklist){    
+            //     return res.status(403).json({message:"you have been logged out"});
+            // }
             next();
+            
         }
     }
     public async validation(req: Request | any, res:Response, next:NextFunction) : Promise<Response<any,Record<string,any>> | undefined> {
