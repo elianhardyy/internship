@@ -28,13 +28,13 @@ class AuthenticationMiddleware {
                     userId:req.user.id,
                     token:token,
                 }})
-                if(!tokenAuth){
-                    return res.status(403).json({message:"you must login first"});
-                }
-                else if(token != tokenAuth.token){
-                    return res.status(403).json({message:"your token not verified"})
-                }
-                else if(tokenAuth?.expires_at <= new Date(Date.now())){
+                // if(!tokenAuth){
+                //     return res.status(403).json({message:"you must login first"});
+                // }
+                // else if(token != tokenAuth.token){
+                //     return res.status(403).json({message:"your token not verified"})
+                // }
+                if(tokenAuth!!.expires_at <= new Date(Date.now())){
                     await Token.destroy({where:{userId:req.user.id}})
                     return res.status(403).json({message:"you can't login"})
                 }else{
