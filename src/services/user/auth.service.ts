@@ -41,9 +41,9 @@ export class AuthService {
             role:userRole?.roleId
         }
         const expired = new Date(Date.now()+86400000)
-        session.cookie.expires = expired;
-        session.cookie.maxAge = 86400000;
-        session.authenticated = true
+        // session.cookie.expires = expired;
+        // session.cookie.maxAge = 86400000;
+        // session.authenticated = true
         
         const refresh = refreshSignJwt(payload);
         const refreshTokenExp = new Date(Date.now()+86400000);
@@ -101,9 +101,9 @@ export class AuthService {
         // await Blacklist.create({
         //     userId:req.user.id
         // })
-        req.session.cookie.expires = expired
-        req.session.cookie.maxAge = 0
-        req.session.authenticated = false
+        // req.session.cookie.expires = expired
+        // req.session.cookie.maxAge = 0
+        // req.session.authenticated = false
         req.session.destroy(async(err:Error)=>{
             if(err){
                 return err.message
