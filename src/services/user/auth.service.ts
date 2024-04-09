@@ -49,11 +49,11 @@ export class AuthService {
         const refreshTokenExp = new Date(Date.now()+86400000);
         
         const token = accessSignJwt(payload);
-        await Token.create({
-            userId:findEmail?.id,
-            token:token,
-            expires_at:expired
-        })
+        // await Token.create({
+        //     userId:findEmail?.id,
+        //     token:token,
+        //     expires_at:expired
+        // })
         session.user = {
             username:user.username,
             email:user.email,
@@ -104,7 +104,7 @@ export class AuthService {
         // req.session.cookie.expires = expired
         // req.session.cookie.maxAge = 0
         // req.session.authenticated = false
-        req.session.destroy(async(err:Error)=>{
+        req.session.destroy((err:Error)=>{
             if(err){
                 return err.message
             }else{
@@ -113,11 +113,11 @@ export class AuthService {
                 res.cookie("jwt","",{
                     expires:expired
                 })
-                await Token.destroy({where:{
-                    userId:req.user.id,
-                    token
-                }});
-                return res.status(200).json({msg:"session deleted"});
+                // await Token.destroy({where:{
+                //     userId:req.user.id,
+                //     token
+                // }});
+                return res.status(200).json({msg:"logout success"});
             }
         })
     }
