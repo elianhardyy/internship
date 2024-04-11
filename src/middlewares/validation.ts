@@ -32,7 +32,7 @@ class AuthenticationMiddleware {
         
     }
     public async checkToken(req:Request|any, res:Response, next:NextFunction):Promise<any>{
-        let token = req.headers.authorization?.split(" ")[1];
+        let token = req.cookies["accessToken"];
         const tokenAuth = await Token.findOne({where:{
                 userId:req.user.id,
                 token:token,

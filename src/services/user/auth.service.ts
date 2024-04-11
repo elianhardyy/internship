@@ -49,11 +49,11 @@ export class AuthService {
         const refreshTokenExp = new Date(Date.now()+86400000);
         
         const token = accessSignJwt(payload);
-        // await Token.create({
-        //     userId:findEmail?.id,
-        //     token:token,
-        //     expires_at:expired
-        // })
+        await Token.create({
+            userId:findEmail?.id,
+            token:token,
+            expires_at:expired
+        })
         session.user = {
             username:user.username,
             email:user.email,
@@ -97,26 +97,31 @@ export class AuthService {
 
     public async logout(req:Request|any, res:Response):Promise<any>{
         const expired = new Date(Date.now())
-        let token = req.headers.authorization?.split(" ")[1]
+        let token = req.cookies["accessToken"];
         // await Blacklist.create({
         //     userId:req.user.id
         // })
         // req.session.cookie.expires = expired
         // req.session.cookie.maxAge = 0
         // req.session.authenticated = false
+        if(!token) return res.status(401).json({message:"token not found"});
+        await Token.destroy({where:{
+            userId:req.user.id,
+            token
+        }});
         req.session.destroy((err:Error)=>{
             if(err){
                 return err.message
             }else{
-                const exptoken = new Date(req.user.exp);
-                console.log(exptoken);
-                res.cookie("jwt","",{
-                    expires:expired
+                //const exptoken = new Date(req.user.exp);
+                //console.log(exptoken);
+                res.cookie("accessToken","",{
+                    expires:new Date(0)
                 })
-                // await Token.destroy({where:{
-                //     userId:req.user.id,
-                //     token
-                // }});
+                res.cookie("refreshToken","",{
+                    expires:new Date(0)
+                })
+                
                 return res.status(200).json({msg:"logout success"});
             }
         })
