@@ -11,6 +11,7 @@ export const server = () =>{
         origin:"http://localhost:5173",
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
+        preflightContinue:true
         //allowedHeaders:"X-Requested-With,content-type",
     }))
     app.use((req,res,next)=>{
