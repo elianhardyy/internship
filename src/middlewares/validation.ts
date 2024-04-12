@@ -36,24 +36,23 @@ class AuthenticationMiddleware {
         const tokenAuth = await Token.findOne({where:{
                 userId:req.user.id,
                 token:token,
-            }})
-            if(!tokenAuth){
-                return res.status(403).json({message:"you must login first"});
-            }
-            else if(token != tokenAuth.token){
-                return res.status(403).json({message:"your token not verified"})
-            }
-            else if(tokenAuth!!.expires_at <= new Date(Date.now())){
-                await Token.destroy({where:{userId:req.user.id}})
-                return res.status(403).json({message:"you token expired"})
-            }else{
-                // if(userblacklist){    
-                //     return res.status(403).json({message:"you have been logged out"});
-                // }
-                
-                next()
-                
-            }
+        }})
+        if(!tokenAuth){
+            return res.status(403).json({message:"you must login first"});
+        }
+        else if(token != tokenAuth.token){
+            return res.status(403).json({message:"your token not verified"})
+        }
+        else if(tokenAuth!!.expires_at <= new Date(Date.now())){
+            await Token.destroy({where:{userId:req.user.id}})
+            return res.status(403).json({message:"you token expired"})
+        }else{
+            // if(userblacklist){    
+            //     return res.status(403).json({message:"you have been logged out"});
+            // }
+            next()
+            
+        }
     }
     //Promise<Response<any,Record<string,any>> | undefined>
     public async validation(req: Request | any, res:Response, next:NextFunction) : Promise<any> {
