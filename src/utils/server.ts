@@ -8,7 +8,7 @@ import { Request, Response } from "express";
 export const server = () =>{
     const app = express()
     app.use(cors({
-        origin:"http://localhost:5173",
+        origin:"*",
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
         preflightContinue:true
@@ -21,7 +21,7 @@ export const server = () =>{
         )
         next();
     })
-    app.use(express.urlencoded({extended:true}))
+    app.use(express.urlencoded({extended:true})) // URLs can only be sent over the Internet using the ASCII character-set. Since URLs often contain characters outside the ASCII set, the URL has to be converted into a valid ASCII format.
     app.use(express.json())
     app.use(cookieParser())
     app.use(session({
