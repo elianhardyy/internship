@@ -11,16 +11,16 @@ export const server = () =>{
         origin:"http://localhost:5173",
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
+        allowedHeaders:"X-Requested-With,content-type"
         //preflightContinue:true
-        //allowedHeaders:"X-Requested-With,content-type",
     }))
-    app.use((req,res,next)=>{
-        res.header(
-            "Access-Control-Allow-Headers",
-            "x-access-token, Origin, Content-Type, Accept"
-        )
-        next();
-    })
+    // app.use((req,res,next)=>{
+    //     res.header(
+    //         "Access-Control-Allow-Headers",
+    //         "x-access-token, Origin, Content-Type, Accept"
+    //     )
+    //     next();
+    // })
     app.use(express.urlencoded({extended:true})) // URLs can only be sent over the Internet using the ASCII character-set. Since URLs often contain characters outside the ASCII set, the URL has to be converted into a valid ASCII format.
     app.use(express.json())
     app.use(cookieParser())
