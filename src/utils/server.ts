@@ -12,9 +12,9 @@ export const server = () =>{
     const devClientOrigin = Env("LOCAL_SERVER")
     const bothOrigin = [prodClientOrigin,devClientOrigin]
     //const allowedOrigins = Env('NODE_ENV') === 'production' ? prodClientOrigin : devClientOrigin
+    //optionsSuccessStatus:200,
     app.use(cors({
         origin:bothOrigin,
-        optionsSuccessStatus:200,
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
         allowedHeaders:"Origin, X-Requested-With, Content-Type, Accept, Authorization"
