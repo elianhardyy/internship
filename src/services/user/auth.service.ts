@@ -104,7 +104,9 @@ export class AuthService {
         // req.session.cookie.expires = expired
         // req.session.cookie.maxAge = 0
         // req.session.authenticated = false
-        if(!token) {return res.status(401).json({message:"token not found"})};
+        if(!token) {
+            return res.status(401).json({message:"token not found"})
+        };
         await Token.destroy({where:{
             userId:req.user.id,
             token
