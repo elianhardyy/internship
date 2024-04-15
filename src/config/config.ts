@@ -1,9 +1,8 @@
 import { Sequelize } from "sequelize";
-import dotenv from 'dotenv';
 import mysql2 from "mysql2";
 import { Env } from "../utils/helper";
 
-dotenv.config();
+
 const DATABASE = Env("RDS_DATABASE");
 const USER = Env("RDS_USER");
 const PASSWORD = Env("RDS_PASSWORD");
