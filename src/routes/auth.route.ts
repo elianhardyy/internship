@@ -8,7 +8,7 @@ const auth = express.Router();
 //authentication
 auth.post('/register',userRegister,AuthenticationMiddleware.validation,UserController.create);
 auth.post('/login',userLogin,AuthenticationMiddleware.validation,UserController.login);
-auth.post('/logout',AuthenticationMiddleware.verifyToken,AuthenticationMiddleware.checkToken,UserController.logout);
+auth.post('/logout',AuthenticationMiddleware.verifyToken,UserController.logout);
 auth.post('/refresh',UserController.refresh);
 
 //social-authentication

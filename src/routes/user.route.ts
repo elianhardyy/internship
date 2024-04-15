@@ -9,7 +9,7 @@ import { upload } from "../utils/files";
 
 const user = express.Router();
 //user
-user.get('/dashboard',AuthenticationMiddleware.verifyToken,AuthenticationMiddleware.checkToken,UserController.index)
+user.get('/dashboard',AuthenticationMiddleware.verifyToken,UserController.index)
 user.get("/profile/:id",AuthenticationMiddleware.verifyToken,UserController.detail)
 user.get("/all",AuthenticationMiddleware.verifyToken,UserController.users)
 user.put("/update/:id",editUser,AuthenticationMiddleware.validation,AuthenticationMiddleware.verifyToken,UserController.update);
