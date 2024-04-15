@@ -9,7 +9,7 @@ import { Env } from "./helper";
 export const server = () =>{
     const app = express()
     dbconfig
-    const prodClientOrigin = [process.env.ORIGIN_1]
+    const prodClientOrigin = [Env("ORIGIN_1")]
     const devClientOrigin = ["http://localhost:5173"]
     const allowedOrigins = Env('NODE_ENV') === 'production' ? prodClientOrigin : devClientOrigin
     app.use(cors({
