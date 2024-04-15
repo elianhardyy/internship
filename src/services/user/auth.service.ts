@@ -97,7 +97,7 @@ export class AuthService {
 
     public async logout(req:Request|any, res:Response):Promise<any>{
         const expired = new Date(Date.now())
-        let token = req.cookies["accessToken"];
+        let token = req.cookies["refreshToken"];
         // await Blacklist.create({
         //     userId:req.user.id
         // })
