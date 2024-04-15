@@ -12,7 +12,7 @@
             "dest":"src/index.ts",
             "methods":["GET","POST","PUT","DELETE","PATCH","OPTIONS"],
             "headers":{
-                "Access-Control-Allow-Origin":["https://node-app-vite.vercel.app","http://localhost:5173"]
+                "Access-Control-Allow-Origin":"https://node-app-vite.vercel.app"
             }
         }
     ]
