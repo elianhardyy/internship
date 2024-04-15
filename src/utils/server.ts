@@ -5,10 +5,26 @@ import cookieParser from 'cookie-parser';
 import cors from "cors"
 import { dbconfig } from "../config/database";
 import { Request, Response } from "express";
+import { Env } from "./helper";
 export const server = () =>{
     const app = express()
+    dbconfig
+    const prodClientOrigin = [process.env.ORIGIN_1]
+    const devClientOrigin = ["http://localhost:5173"]
+    const allowedOrigins = Env('NODE_ENV') === 'production' ? prodClientOrigin : devClientOrigin
     app.use(cors({
-        origin:"http://localhost:5173",
+        origin:(origin,callback)=>{
+            if(Env('NODE_ENV')==='production'){
+                if(!origin || allowedOrigins.includes(origin)){
+                    callback(null,true)
+                }else{
+                    callback(new Error(`${origin} not allowed`))
+                }
+            }else{
+                callback(null,true)
+            }
+        },
+        optionsSuccessStatus:200,
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
         allowedHeaders:"Origin, X-Requested-With, Content-Type, Accept, Authorization"
@@ -29,8 +45,6 @@ export const server = () =>{
         saveUninitialized: true,
         cookie:{maxAge:86400000},
     }))
-    
-    dbconfig
     app.use("/api/v1",router)
     app.get("/",function(req:Request, res:Response){
         res.send(
