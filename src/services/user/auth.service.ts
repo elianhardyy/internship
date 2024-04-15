@@ -40,6 +40,7 @@ export class AuthService {
             sub:findEmail?.email,
             role:userRole?.roleId
         }
+        const token = accessSignJwt(payload);
         const expired = new Date(Date.now()+86400000)
         // session.cookie.expires = expired;
         // session.cookie.maxAge = 86400000;
@@ -48,11 +49,10 @@ export class AuthService {
         const refresh = refreshSignJwt(payload);
         const refreshTokenExp = new Date(Date.now()+86400000);
         
-        const token = accessSignJwt(payload);
         await Token.create({
             userId:findEmail?.id,
-            token:token,
-            expires_at:expired
+            token:refresh,
+            expires_at:refreshTokenExp
         })
         session.user = {
             username:user.username,
