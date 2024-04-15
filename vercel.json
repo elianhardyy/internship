@@ -14,7 +14,7 @@
             "headers":{
                 "Access-Control-Allow-Origin":"https://node-app-vite.vercel.app"
             },
-            "credentials":"include"
+            "credentials":true
         }
     ]
 }

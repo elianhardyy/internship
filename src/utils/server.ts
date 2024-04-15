@@ -11,7 +11,7 @@ export const server = () =>{
     const prodClientOrigin = Env("ORIGIN_1")
     const devClientOrigin = Env("LOCAL_SERVER")
     const bothOrigin = [prodClientOrigin,devClientOrigin]
-    const allowedOrigins = Env('NODE_ENV') === 'production' ? prodClientOrigin : devClientOrigin
+    //const allowedOrigins = Env('NODE_ENV') === 'production' ? prodClientOrigin : devClientOrigin
     app.use(cors({
         origin:bothOrigin,
         optionsSuccessStatus:200,
