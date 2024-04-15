@@ -8,11 +8,12 @@ import { Request, Response } from "express";
 import { Env } from "./helper";
 export const server = () =>{
     const app = express()
-    const prodClientOrigin = [Env("ORIGIN_1")]
-    const devClientOrigin = ["http://localhost:5173"]
+    const prodClientOrigin = Env("ORIGIN_1")
+    const devClientOrigin = Env("LOCAL_SERVER")
+    const bothOrigin = [prodClientOrigin,devClientOrigin]
     const allowedOrigins = Env('NODE_ENV') === 'production' ? prodClientOrigin : devClientOrigin
     app.use(cors({
-        origin:[Env("ORIGIN_1"),Env("LOCAL_SERVER")],
+        origin:bothOrigin,
         optionsSuccessStatus:200,
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
