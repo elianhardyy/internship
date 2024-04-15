@@ -17,7 +17,7 @@ export const server = () =>{
         optionsSuccessStatus:200,
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
-        allowedHeaders:"Origin, X-Requested-With, Content-Type, Accept, Authorization"
+        //allowedHeaders:"Origin, X-Requested-With, Content-Type, Accept, Authorization"
     }))
     app.use(express.urlencoded({extended:true})) // URLs can only be sent over the Internet using the ASCII character-set. Since URLs often contain characters outside the ASCII set, the URL has to be converted into a valid ASCII format.
     app.use(express.json())
