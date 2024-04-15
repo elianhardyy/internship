@@ -12,17 +12,7 @@ export const server = () =>{
     const devClientOrigin = ["http://localhost:5173"]
     const allowedOrigins = Env('NODE_ENV') === 'production' ? prodClientOrigin : devClientOrigin
     app.use(cors({
-        origin:(origin,callback)=>{
-            if(Env('NODE_ENV')==='production'){
-                if(!origin || allowedOrigins.includes(origin)){
-                    callback(null,true)
-                }else{
-                    callback(new Error(`${origin} not allowed`))
-                }
-            }else{
-                callback(null,true)
-            }
-        },
+        origin:[Env("ORIGIN_1"),Env("LOCAL_SERVER")],
         optionsSuccessStatus:200,
         methods:["GET","POST","PUT","DELETE"],
         credentials:true,
