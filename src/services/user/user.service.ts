@@ -1,12 +1,12 @@
 import { UserRequest } from "../../interfaces/user.interface";
-import { User } from "../../models/user";
+import { User } from "../../app/models/user";
 import { Request } from "express"; 
 import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand } from "@aws-sdk/client-s3";
 import { bucketName, s3 } from "../../utils/files";
 import { FileRequest } from "../../interfaces/file.interface";
 import crypto from 'crypto'
 import sharp from "sharp";
-import { Profile } from "../../models/profile";
+import { Profile } from "../../app/models/profile";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 export class UserService {
     public async dashboard(req:UserRequest) : Promise<User|null>{

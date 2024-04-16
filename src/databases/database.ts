@@ -1,11 +1,11 @@
-import { Blacklist } from "../models/blacklist";
-import { Profile } from "../models/profile";
-import { Role } from "../models/role";
-import { Session } from "../models/session";
-import { Token } from "../models/token";
-import { User } from "../models/user";
-import { UserRole } from "../models/user_role";
-import { database } from "./config";
+import { Blacklist } from "../app/models/blacklist";
+import { Profile } from "../app/models/profile";
+import { Role } from "../app/models/role";
+import { Session } from "../app/models/session";
+import { Token } from "../app/models/token";
+import { User } from "../app/models/user";
+import { UserRole } from "../app/models/user_role";
+import { database } from "../config/config";
 
 export const dbconfig = [
     User.hasOne(Blacklist,{onDelete:'CASCADE',onUpdate:'CASCADE',foreignKey:"userId"}),

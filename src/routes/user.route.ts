@@ -1,5 +1,5 @@
 import express from "express"
-import UserController from "../controllers/user.controller";
+import UserController from "../app/controllers/user.controller";
 import AuthenticationMiddleware from "../middlewares/validation";
 import { userRegister,userLogin, editUser } from "../schema/user";
 import {permission} from "../middlewares/role";

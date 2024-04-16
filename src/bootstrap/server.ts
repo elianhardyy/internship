@@ -1,13 +1,16 @@
 import express from "express";
-import router from "./router";
+import router from "../utils/router";
 import session from 'express-session'
 import cookieParser from 'cookie-parser';
 import cors from "cors"
-import { dbconfig } from "../config/database";
+import { dbconfig } from "../databases/database";
 import { Request, Response } from "express";
-import { Env } from "./helper";
+import { Env } from "../utils/helper";
+import { socketInit } from "../utils/socket";
+
 export const server = () =>{
     const app = express()
+    socketInit(app);
     const prodClientOrigin = Env("ORIGIN_1")
     const devClientOrigin = Env("LOCAL_SERVER")
     const bothOrigin = [prodClientOrigin,devClientOrigin]

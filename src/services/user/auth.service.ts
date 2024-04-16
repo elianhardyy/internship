@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
-import { User, UserAttributes } from "../../models/user";
+import { User, UserAttributes } from "../../app/models/user";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken"
 import { accessSignJwt, refreshSignJwt } from "../../utils/jwt.utils";
 import { TokenData } from "../../utils/jwt.utils"; 
-import { Token } from "../../models/token";
-import { Blacklist } from "../../models/blacklist";
+import { Token } from "../../app/models/token";
+import { Blacklist } from "../../app/models/blacklist";
 import { UserRequest } from "../../interfaces/user.interface";
 import { Session } from "express-session";
-import { UserRole } from "../../models/user_role";
+import { UserRole } from "../../app/models/user_role";
 
 export class AuthService {
     public async register(user:User,res:Response) : Promise<any>{ 

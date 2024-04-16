@@ -1,6 +1,6 @@
 import { DataTypes, Model, Optional } from "sequelize";
-import { database } from "../config/config";
-import { Role } from "../enums/role";
+import { database } from "../../config/config";
+import { Role } from "../../enums/role";
 
 export interface UserRoleAttributes{
     id:number;

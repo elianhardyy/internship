@@ -1,4 +1,4 @@
-import { server } from "./utils/server";
+import { server } from "./bootstrap/server";
 
 const app = server();
 

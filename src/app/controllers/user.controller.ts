@@ -1,10 +1,10 @@
-import { AuthService } from "../services/user/auth.service";
+import { AuthService } from "../../services/user/auth.service";
 import { Request, Response } from "express";
-import { UserService } from "../services/user/user.service";
+import { UserService } from "../../services/user/user.service";
 import { User } from "../models/user";
 import { RequestRedirect } from "undici-types";
-import { UserRequest } from "../interfaces/user.interface";
-import { SocialService } from "../services/user/social.service";
+import { UserRequest } from "../../interfaces/user.interface";
+import { SocialService } from "../../services/user/social.service";
 
 
 class UserController {

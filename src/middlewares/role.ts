@@ -1,7 +1,7 @@
 import { UserRequest } from "../interfaces/user.interface"
 import { NextFunction, Response, Request } from "express"
-import { UserRole } from "../models/user_role"
-import { Role } from "../models/role"
+import { UserRole } from "../app/models/user_role"
+import { Role } from "../app/models/role"
 import { Roles } from "../enums/role"
 
 export const permission = (roles:any[]) => {

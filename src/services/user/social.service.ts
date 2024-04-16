@@ -1,6 +1,6 @@
 import { google } from "googleapis"
 import { Response } from "express"
-import { User } from "../../models/user"
+import { User } from "../../app/models/user"
 
 const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,

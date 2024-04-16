@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 //import { Blacklist } from "../models/blacklist";
-import { Token } from "../models/token";
+import { Token } from "../app/models/token";
 class AuthenticationMiddleware {
     public async verifyToken(req: any, res:Response, next:NextFunction) : Promise<Response|void>{
         let token = req.headers.authorization?.split(" ")[1];
