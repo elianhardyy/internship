@@ -10,7 +10,7 @@ import { socketInit } from "../utils/socket";
 
 export const server = () =>{
     const app = express()
-    socketInit(app);
+    //socketInit(app);
     const prodClientOrigin = Env("ORIGIN_1")
     const devClientOrigin = Env("LOCAL_SERVER")
     const bothOrigin = [prodClientOrigin,devClientOrigin]
