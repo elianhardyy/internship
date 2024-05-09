@@ -30,6 +30,7 @@
     "inversify-express-utils": "^6.4.6",
     "inversify-typeorm": "^0.0.4",
     "jsonwebtoken": "^9.0.2",
+    "mqtt": "^5.5.3",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.9.1",
     "nodemon": "^3.0.3",

@@ -7,9 +7,22 @@ import { dbconfig } from "../databases/database";
 import { Request, Response } from "express";
 import { Env } from "../utils/helper";
 import { socketInit } from "../utils/socket";
+import mqtt from "mqtt";
+
+const username = "hivemq.webclient.1713603395933"
+const password = "8w&4HJLv;@thy7M6eVT#"
+
+var client = mqtt.connect({
+  hostname:"6cb1df3c593b40828249b433fba92e37.s1.eu.hivemq.cloud",
+  port:8883,
+  protocol:'mqtt',
+  username:"hivemq.webclient.1713603395933",
+  password:"8w&4HJLv;@thy7M6eVT#"
+})
 
 export const server = () =>{
     const app = express()
+    
     //socketInit(app);
     const prodClientOrigin = Env("ORIGIN_1")
     const devClientOrigin = Env("LOCAL_SERVER")

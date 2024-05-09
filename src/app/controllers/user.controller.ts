@@ -32,10 +32,8 @@ class UserController {
         const service = new UserService();
         const dashboard = await service.dashboard(req);
         return res.status(200).json({
-            data:{
-                email:dashboard?.email,
-                username:dashboard?.username
-            },
+            email:dashboard?.email,
+            username:dashboard?.username
         })
     }
     public async detail(req: Request, res:Response) : Promise<Response> {

@@ -62,13 +62,13 @@ export class AuthService {
         }
         res.cookie('refreshToken',refresh,{
             maxAge:86400000,
-            withCredentials: true,
-            httpOnly: false,
+            // withCredentials: true,
+            // httpOnly: false,
         })
         res.cookie('accessToken',token,{
             maxAge:86400000,
-            withCredentials: true,
-            httpOnly: false,
+            // withCredentials: true,
+            // httpOnly: false,
         })
         //res.cookie("token",token);
         return res.status(200).json({refreshToken:refresh, accessToken: token});
