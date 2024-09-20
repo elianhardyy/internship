@@ -12,7 +12,23 @@ services:
     stdin_open: true
     environment:
       - PORT=7134
-    command: npm start
+      - RDS_HOSTNAME=database-1.cp0accsqw0of.sa-east-1.rds.amazonaws.com
+      - RDS_USER=admin
+      - RDS_PASSWORD=M0jokerto1
+      - RDS_DATABASE=internship
+      - RDS_PORT=3306
+    command: npm run dev
+  mysql:
+    image: mysql:8.0
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      - RDS_HOSTNAME=database-1.cp0accsqw0of.sa-east-1.rds.amazonaws.com
+      - RDS_USER=admin
+      - RDS_PASSWORD=M0jokerto1
+      - RDS_DATABASE=internship
+      - RDS_PORT=3306
 
 volumes:
   node_modules:
+  mysql-data:

@@ -2,7 +2,7 @@ import { DataTypes, Model, Optional } from "sequelize";
 import * as bcrypt from "bcrypt";
 import { database } from "../../config/config";
 import { UserRole } from "./user_role";
-import { Role } from "../../enums/role";
+import { Role } from "../enums/role";
 
 export interface UserAttributes {
     id: number;
@@ -67,9 +67,9 @@ User.init(
                     userId:user?.id,
                     roleId:Role.USER
                 })
-            }
+            },
+            
         }
-        
     }
 )
 

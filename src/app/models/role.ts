@@ -26,5 +26,13 @@ Role.init({
 },{
     timestamps:true,
     sequelize:database,
-    tableName:'roles'
+    tableName:'roles',
 })
+// Role.bulkCreate([
+//     {name:'admin'},
+//     {name:'user'}
+// ],{returning:true}).then((result)=>{
+//     console.log('Role data success')
+// }).catch((error:Error)=>{
+//     console.log(error.message)
+// })
