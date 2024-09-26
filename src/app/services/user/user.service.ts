@@ -17,7 +17,7 @@ export class UserService {
     const user: User | null = await User.findOne({
       where: { id: req.user.id },
     });
-    console.log("berhasil ke dashboard");
+    // console.log("berhasil ke dashboard");
     return user;
   }
   public async profile(id: string): Promise<User | null> {

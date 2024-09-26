@@ -10,21 +10,17 @@ const user = express.Router();
 //user
 user.get(
   "/dashboard",
-  //AuthenticationMiddleware.checkToken,
   AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.checkJWT,
   UserController.index
 );
 user.get(
   "/profile/:id",
-  //AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.checkToken,
+  AuthenticationMiddleware.verifyToken,
   UserController.detail
 );
 user.get(
   "/all",
   AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.checkToken,
   permission(["admin"]),
   UserController.users
 );
@@ -33,33 +29,28 @@ user.put(
   editUser,
   AuthenticationMiddleware.validation,
   AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.checkToken,
   UserController.update
 );
 user.delete(
   "/delete/:id",
   AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.checkToken,
   UserController.destroy
 );
 user.post(
   "/profile",
   AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.checkToken,
   upload.single("image"),
   UserController.myProfile
 );
 user.get(
   "/all/profiles",
   AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.checkToken,
   permission(["admin"]),
   UserController.getAllProfile
 );
 user.get(
   "/profile/:id",
   AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.checkToken,
   UserController.destroyMyProfile
 );
 

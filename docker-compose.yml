@@ -1,8 +1,8 @@
-version: '3.3'
+version: "3.3"
 
 services:
   app:
-    container_name: 'app'
+    container_name: "app"
     build: .
     volumes:
       - .:/app
@@ -25,7 +25,7 @@ services:
     environment:
       - RDS_HOSTNAME=database-1.cp0accsqw0of.sa-east-1.rds.amazonaws.com
       - RDS_USER=admin
-      - RDS_PASSWORD=M0jokerto1
+      - RDS_PASSWORD=
       - RDS_DATABASE=internship
       - RDS_PORT=3306
 

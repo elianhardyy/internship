@@ -10,12 +10,11 @@ export const permission = (roles: any[]) => {
     const getRole = await Role.findOne({ where: { id: req.user.role } });
     const roleName = getRole?.name;
     if (!roles.includes(roleName as string)) {
-      return next(
-        res.status(403).json({
-          status: 403,
-          error: "not permitted",
-        })
-      );
+      res.status(403).json({
+        status: 403,
+        error: "not permitted",
+      });
+      return;
     }
     next();
   };

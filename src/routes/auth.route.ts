@@ -21,7 +21,6 @@ auth.post(
 auth.post(
   "/logout",
   AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.checkToken,
   UserController.logout
 );
 auth.post("/refresh", UserController.refresh);
