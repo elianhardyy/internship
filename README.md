@@ -9,7 +9,7 @@
 2. Install dependencies : `npm install`
 3. Run server : `npm run dev`
 
-Database telah di hosting ke AWS
+Database telah di hosting ke AWS <br>
 Dokumentasi endpoint tersedia di Postman: [API Documentation](https://documenter.getpostman.com/view/18886846/2sAXxJiapN)
 ## User Model
 
