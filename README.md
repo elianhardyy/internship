@@ -4,6 +4,13 @@
 
 Dokumentasi endpoint tersedia di Postman: [API Documentation](https://documenter.getpostman.com/view/18886846/2sAXxJiapN)
 
+## How To Install
+1. Clone github : `git clone https://github.com/elianhardyy/internship.git`
+2. Install dependencies : `npm install`
+3. Run server : `npm run dev`
+
+Database telah di hosting ke AWS
+
 ## User Model
 
 ```ts
