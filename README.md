@@ -2,7 +2,7 @@
 
  facade pattern ini menyembunyikan komplexitas dari suatu subsitem ke dalam satu class facade. Dimana class tersebut nanti akan diakses oleh client. Sehingga client dimudahkan untuk menggunakan sistem yang dibuat. http://www.tutorialspoint.com/design_pattern/facade_pattern.htm
 
-
+Dokumentasi endpoint tersedia di Postman: [API Documentation](https://documenter.getpostman.com/view/18886846/2sAXxJiapN)
 
 ## User Model
 
